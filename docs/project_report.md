@@ -88,43 +88,4 @@ SQL для PostgreSQL — `sql/postgres_04_ab_test.sql`.
 
 SQL и правила для PostgreSQL — `sql/postgres_05_alerts.sql`, описание — `docs/alerts.md`.
 
----
 
-## Как запустить
-
-### Что понадобится
-- **PostgreSQL** (основная БД), доступ через `psql` или DBeaver.
-- **Python 3.10+**.
-- Python-пакеты: `psycopg2-binary` (см. `requirements.txt`).
-- (Опционально) **cron** или **Airflow** для регулярного запуска загрузки/обновления витрин.
-
-### PostgreSQL (основная БД)
-1. Создать таблицы:
-```sql
-source sql/postgres_01_schema.sql
-```
-2. Загрузить CSV в staging (пример через `psql`):
-```sql
-\\copy cashback.cashback_staging FROM 'tinkoff2_cashback.csv' WITH (FORMAT csv, HEADER true)
-```
-3. Установить зависимости Python:
-```bash
-python -m pip install -r requirements.txt
-```
-4. Очистить и наполнить модель:
-```sql
-source sql/postgres_02_cleaning.sql
-```
-5. Метрики и дашборды — `sql/postgres_03_metrics.sql`.
-6. Observational-анализ — `sql/postgres_04_ab_test.sql`.
-7. QC-проверка доступных категорий — последний запрос в `sql/postgres_02_cleaning.sql`.
-
-### Пример cron (раз в час)
-```cron
-0 * * * * /usr/bin/psql "$PG_DSN" -f /path/to/project/sql/postgres_02_cleaning.sql >> /var/log/cashback_refresh.log 2>&1
-```
-
-## Ограничения данных
-- Данные агрегированы по месяцам, нет транзакций/чеков.
-- Нет формулы начисления кэшбэка и лимитов.
-- Нет реального эксперимента, выводы — наблюдательные.
