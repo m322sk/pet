@@ -335,3 +335,4 @@ ORDER BY eligible_cnt;
 
 SELECT COUNT(DISTINCT client_id) AS clients, COUNT(*) AS rows
 FROM cashback.fact_cashback;
+

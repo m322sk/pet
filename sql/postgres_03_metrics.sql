@@ -46,3 +46,4 @@ SELECT
 FROM cashback.fact_cashback_category
 GROUP BY month, category
 ORDER BY month, turnover DESC;
+
