@@ -153,3 +153,4 @@ CREATE TABLE IF NOT EXISTS cashback.mart_client_month (
     has_subscription_guess BOOLEAN,
     PRIMARY KEY (client_id, month)
 );
+

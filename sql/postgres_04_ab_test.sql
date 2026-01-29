@@ -55,3 +55,4 @@ SELECT
 FROM base
 GROUP BY month, category
 ORDER BY month, category;
+
